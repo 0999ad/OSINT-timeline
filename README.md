@@ -1,8 +1,5 @@
-Here's the full `README.md` with the virtual environment setup steps included.
-
----
-
 # OSINT Timeline Tool
+Original is from the Dutch_Osintguy and located here https://github.com/Dutchosintguy/OSINT-timeline
 
 The OSINT Timeline Tool is a Python-based application designed to help you create, manage, and visualize timelines for Open Source Intelligence (OSINT) investigations. The tool allows users to document events, link related entities, and visualize interactions over time through an intuitive web interface. You can also export the timelines and query results in various formats, including CSV, Excel, and PDF.
 
@@ -118,9 +115,3 @@ _Add screenshots to demonstrate the web interface. Replace these with your own s
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request with any improvements or new features you'd like to see in the OSINT Timeline Tool.
 
-## License
-[Include your license information here.]
-
----
-
-This updated `README.md` includes full instructions for setting up and running the OSINT Timeline Tool in a virtual environment. Let me know if you need any further updates or assistance!
