@@ -107,7 +107,7 @@ Future versions will include API support. Planned features:
 
 ## Screenshots
 
-_Add screenshots to demonstrate the web interface. Replace these with your own screenshots._
+_Add screenshots to demonstrate the web interface. To be updated
 
 ![Add New Entry](screenshots/add_entry.png)
 ![Query Timeline](screenshots/query_timeline.png)
