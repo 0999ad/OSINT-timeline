@@ -1,120 +1,126 @@
+Here's the full `README.md` with the virtual environment setup steps included.
+
+---
 
 # OSINT Timeline Tool
 
 The OSINT Timeline Tool is a Python-based application designed to help you create, manage, and visualize timelines for Open Source Intelligence (OSINT) investigations. The tool allows users to document events, link related entities, and visualize interactions over time through an intuitive web interface. You can also export the timelines and query results in various formats, including CSV, Excel, and PDF.
 
-## Table of Contents
-- [Features](#features)
-- [Installation](#installation)
-  - [Prerequisites](#prerequisites)
-  - [Clone the Repository](#clone-the-repository)
-  - [Install Required Dependencies](#install-required-dependencies)
-- [Usage](#usage)
-  - [Starting the Application](#starting-the-application)
-  - [Web Interface Overview](#web-interface-overview)
-    - [Add New Entry](#add-new-entry)
-    - [Query Timeline](#query-timeline)
-    - [Visualize Timeline](#visualize-timeline)
-    - [Export Timeline](#export-timeline)
-
-- [Contributing](#contributing)
-
-
 ## Features
-- **Web Interface**: Manage your timeline through a user-friendly web interface accessible via any browser.
+- **Web Interface**: Manage your timeline through a user-friendly web interface.
 - **Timeline Management**: Create, load, and save timelines.
 - **Entry Documentation**: Add detailed entries with date, time, location, involved entities, descriptions, and more.
-- **Relational Visualization**: Generate interactive visualizations that show connections between entities and events over time.
-- **Querying**: Search and filter timeline entries based on specific criteria.
+- **File Uploads**: Add image and video files as part of your timeline entries.
+- **Relational Visualization**: Generate interactive visualizations showing connections between entities and events.
+- **Querying with Pagination**: Search and filter timeline entries with pagination for large datasets.
 - **Export**: Export timelines or query results to CSV, Excel, and PDF formats.
+- **Input Validation**: Validates URLs and uploaded files to ensure data integrity.
 
-## Installation
+## Setup and Installation (Ubuntu)
 
 ### Prerequisites
 - Python 3.7 or later
 - `pip` (Python package installer)
 
-### Clone the Repository
-First, you need to clone the repository from GitHub. If you haven’t already, open your terminal (or command prompt) and run:
+### Virtual Environment Setup
 
-```bash
-git clone https://github.com/your-username/osint-timeline-tool.git
-cd osint-timeline-tool
-```
+To run the OSINT Timeline Tool in an isolated Python environment using `venv`, follow these steps:
 
-This command will clone the repository to your local machine and navigate into the project directory.
+1. **Install `venv` if Necessary**:
+   If `venv` isn't installed on your system, install it with:
 
-### Install Required Dependencies
-All required Python packages are listed in the `requirements.txt` file. To install them, simply run the following command in your terminal:
+   ```bash
+   sudo apt update
+   sudo apt install python3-venv
+   ```
 
-```bash
-pip install -r requirements.txt
-```
+2. **Create a Virtual Environment**:
+   Navigate to the project directory and create a virtual environment. Replace `env` with your preferred environment name:
 
-This command installs all the necessary dependencies:
+   ```bash
+   cd osint-timeline-tool  # Navigate to the project folder
+   python3 -m venv env     # Create a virtual environment named 'env'
+   ```
 
-- **Flask**: For running the web interface.
-- **pandas**: For managing and manipulating the timeline data.
-- **matplotlib**: For basic static timeline visualizations.
-- **fpdf**: For exporting timelines and queries to PDF format.
-- **plotly**: For interactive timeline visualizations.
-- **networkx**: For handling graph-based visualizations and relationships.
+3. **Activate the Virtual Environment**:
+   After creating the virtual environment, activate it:
 
-## Usage
+   ```bash
+   source env/bin/activate
+   ```
 
-### Starting the Application
-Once all dependencies are installed, you can start the application by running the Python script:
+   You should see the virtual environment name (e.g., `(env)`) in your terminal prompt.
 
-```bash
-python osint_timeline_tool.py
-```
+4. **Install Required Dependencies**:
+   Use the `requirements.txt` file to install dependencies in the virtual environment:
 
-This command will start a local web server, and you should see output in your terminal similar to:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
-```
+5. **Run the Application**:
+   Once the dependencies are installed, start the Flask application:
 
-### Web Interface Overview
-Open your web browser and go to `http://127.0.0.1:5000`. You will be presented with the main interface of the OSINT Timeline Tool. The interface consists of several sections:
+   ```bash
+   python osint_timeline_tool.py
+   ```
 
-#### Add New Entry
-This section allows you to add new events to your timeline. You can enter the following details:
+6. **Access the Web Interface**:
+   Open your web browser and go to `http://127.0.0.1:5000` to use the OSINT Timeline Tool.
 
-- **Date**: The date of the event (in `YYYY-MM-DD` format).
-- **Time**: The time of the event (in `HH:MM` format).
-- **Location**: The location where the event took place.
-- **Person or Entity**: The person or entity involved in the event.
-- **Image**: The file name of any related image (optional).
-- **Video**: The file name of any related video (optional).
-- **Description**: A brief description of the event.
-- **Source**: The source of the information.
-- **Source Link**: A link to the source (optional).
-- **Related Entities**: Other related entities, separated by a semicolon (`;`).
-- **Relationship Type**: The type of relationship (e.g., `collaboration`, `conflict`).
+### Deactivating and Reactivating the Virtual Environment
 
-After filling out the form, click "Add Entry" to save the event to your timeline.
+- **Deactivate the Virtual Environment**:
+   When finished, deactivate the virtual environment by running:
 
-#### Query Timeline
-In this section, you can search for specific events based on criteria such as date, time, location, person/entity, description, and source. Enter the relevant details in the provided fields and click "Query" to view the results. The results will be displayed on a separate page, showing all matching entries.
+   ```bash
+   deactivate
+   ```
 
-#### Visualize Timeline
-This section provides two options for visualizing your timeline:
+- **Reactivate the Virtual Environment Later**:
+   To work on the project again later, navigate back to the project folder and reactivate the environment:
 
-- **Basic Visualization**: Click on this link to generate a simple timeline of events, displayed as a static image.
-- **Relational Visualization**: Click on this link to generate an interactive relational timeline that shows connections between different entities over time.
+   ```bash
+   cd osint-timeline-tool
+   source env/bin/activate
+   ```
 
-#### Export Timeline
-In this section, you can export your timeline data or query results in one of the following formats:
+### Usage
 
-- **CSV**: A standard spreadsheet format.
-- **Excel**: An Excel workbook format.
-- **PDF**: A formatted PDF document.
+- **Add New Entries**: Use the web form to add new events to your timeline. You can include images and videos by uploading supported file types.
+- **Query Timeline**: Use the query form to filter timeline events based on date, time, entities, etc. The query results are paginated for better performance with large datasets.
+- **Visualize Timeline**: Generate static and relational visualizations of your timeline data.
+- **Export Data**: Export timeline data or query results in CSV, Excel, or PDF formats for reporting and sharing.
 
-Choose your desired format from the dropdown menu and click "Export" to download the file.
+### Supported File Types
 
-***
+- **Images**: PNG, JPG, JPEG, GIF
+- **Videos**: MP4, AVI, MOV
+
+### Input Validation
+- **URL Validation**: Ensures that only valid URLs are accepted in the "Source Link" field.
+- **File Validation**: Only supported image and video file types can be uploaded.
+
+## API Instructions (Coming Soon)
+
+Future versions will include API support. Planned features:
+- **POST** `/api/timeline`: Add new entries to the timeline via API.
+- **GET** `/api/timeline`: Retrieve timeline data via API.
+- **GET** `/api/query`: Query the timeline based on specific parameters via API.
+
+## Screenshots
+
+_Add screenshots to demonstrate the web interface. Replace these with your own screenshots._
+
+![Add New Entry](screenshots/add_entry.png)
+![Query Timeline](screenshots/query_timeline.png)
 
 ## Contributing
-Contributions are welcome! If you have suggestions or improvements, feel free to create a pull request or open an issue.
+Contributions are welcome! Please open an issue or submit a pull request with any improvements or new features you'd like to see in the OSINT Timeline Tool.
 
+## License
+[Include your license information here.]
+
+---
+
+This updated `README.md` includes full instructions for setting up and running the OSINT Timeline Tool in a virtual environment. Let me know if you need any further updates or assistance!
