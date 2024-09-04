@@ -4,72 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSINT Timeline Tool</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #2b2b2b;
+            color: #ffffff;
+            padding: 20px;
+        }
+        .container-fluid {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 186, 255, 0.5);
+        }
+        h1, h2 {
+            color: #00baff;
+        }
+        .form-label {
+            color: #00baff;
+        }
+        .btn-primary, .btn-success, .btn-info {
+            background-color: #00baff;
+            border-color: #00baff;
+        }
+        .btn-primary:hover, .btn-success:hover, .btn-info:hover {
+            background-color: #008fc4;
+            border-color: #008fc4;
+        }
+    </style>
 </head>
-<body>
-    <h1>OSINT Timeline Tool</h1>
+<body class="text-light bg-dark">
+    <div class="container-fluid">
+        <h1>OSINT Timeline Tool</h1>
+        <h2>Select a Timeline</h2>
+        <form action="{{ url_for('index') }}" method="post">
+            <label class="form-label" for="timeline">Choose an existing timeline:</label>
+            <select class="form-control" name="timeline" id="timeline">
+                <option value="new">Start a New Timeline</option>
+                {% for timeline in timelines %}
+                <option value="{{ timeline }}">{{ timeline }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            {% if request.form.timeline == 'new' %}
+            <label class="form-label" for="new_timeline_name">New Timeline Name:</label>
+            <input class="form-control" type="text" id="new_timeline_name" name="new_timeline_name" placeholder="Enter timeline name" required>
+            <br>
+            {% endif %}
+            <input class="btn btn-primary" type="submit" value="Select Timeline">
+        </form>
 
-    <h2>Select a Timeline</h2>
-    <form action="{{ url_for('index') }}" method="post">
-        <label for="timeline">Choose an existing timeline:</label>
-        <select name="timeline" id="timeline">
-            <option value="new">Start a New Timeline</option>
-            {% for timeline in timelines %}
-            <option value="{{ timeline }}">{{ timeline }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        {% if request.form.timeline == 'new' %}
-        <label for="new_timeline_name">New Timeline Name:</label>
-        <input type="text" id="new_timeline_name" name="new_timeline_name" placeholder="Enter timeline name" required>
-        <br>
+        {% if selected_timeline %}
+        <h2>Currently Working On: {{ selected_timeline }}</h2>
+        <form action="{{ url_for('new_entry') }}" method="post" enctype="multipart/form-data">
+            <h2>Add New Entry</h2>
+            <label class="form-label">Date:</label><input class="form-control" type="date" name="date" required><br>
+            <label class="form-label">Time:</label><input class="form-control" type="time" name="time" required><br>
+            <label class="form-label">Location:</label><input class="form-control" type="text" name="location"><br>
+            <label class="form-label">Person or Entity:</label><input class="form-control" type="text" name="person_entity"><br>
+            <label class="form-label">Image:</label><input class="form-control" type="file" name="image" accept="image/*"><br>
+            <label class="form-label">Video:</label><input class="form-control" type="file" name="video" accept="video/*"><br>
+            <label class="form-label">Description:</label><input class="form-control" type="text" name="description"><br>
+            <label class="form-label">Source:</label><input class="form-control" type="text" name="source"><br>
+            <label class="form-label">Source Link:</label><input class="form-control" type="url" name="source_link"><br>
+            <input class="btn btn-success" type="submit" value="Add Entry">
+        </form>
+
+        <h2>Query Timeline</h2>
+        <form action="{{ url_for('query') }}" method="post">
+            <label class="form-label">Date:</label><input class="form-control" type="date" name="date"><br>
+            <label class="form-label">Time:</label><input class="form-control" type="time" name="time"><br>
+            <label class="form-label">Location:</label><input class="form-control" type="text" name="location"><br>
+            <label class="form-label">Person or Entity:</label><input class="form-control" type="text" name="person_entity"><br>
+            <label class="form-label">Description:</label><input class="form-control" type="text" name="description"><br>
+            <label class="form-label">Source:</label><input class="form-control" type="text" name="source"><br>
+            <input class="btn btn-info" type="submit" value="Query">
+        </form>
+
+        <h2>Visualize Timeline</h2>
+        <a class="btn btn-secondary" href="{{ url_for('visualize') }}">Basic Visualization</a><br><br>
+        <a class="btn btn-secondary" href="{{ url_for('visualize_relational') }}">Relational Visualization</a><br>
+
+        <h2>Export Timeline</h2>
+        <form action="{{ url_for('export') }}" method="post">
+            <label class="form-label" for="export_format">Export Format:</label>
+            <select class="form-control" name="export_format" id="export_format">
+                <option value="csv">CSV</option>
+                <option value="xls">Excel</option>
+                <option value="pdf">PDF</option>
+            </select>
+            <input class="btn btn-primary" type="submit" value="Export">
+        </form>
         {% endif %}
-        <input type="submit" value="Select Timeline">
-    </form>
-
-    {% if selected_timeline %}
-    <h2>Currently Working On: {{ selected_timeline }}</h2>
-
-    <form action="{{ url_for('new_entry') }}" method="post">
-        <h2>Add New Entry</h2>
-        <label>Date:</label><input type="date" name="date" required><br>
-        <label>Time:</label><input type="time" name="time" required><br>
-        <label>Location:</label><input type="text" name="location"><br>
-        <label>Person or Entity:</label><input type="text" name="person_entity"><br>
-        <label>Image:</label><input type="text" name="image"><br>
-        <label>Video:</label><input type="text" name="video"><br>
-        <label>Description:</label><input type="text" name="description"><br>
-        <label>Source:</label><input type="text" name="source"><br>
-        <label>Source Link:</label><input type="text" name="source_link"><br>
-        <label>Related Entities:</label><input type="text" name="related_entities"><br>
-        <label>Relationship Type:</label><input type="text" name="relationship_type"><br>
-        <input type="submit" value="Add Entry">
-    </form>
-    
-    <h2>Query Timeline</h2>
-    <form action="{{ url_for('query') }}" method="post">
-        <label>Date:</label><input type="date" name="date"><br>
-        <label>Time:</label><input type="time" name="time"><br>
-        <label>Location:</label><input type="text" name="location"><br>
-        <label>Person or Entity:</label><input type="text" name="person_entity"><br>
-        <label>Description:</label><input type="text" name="description"><br>
-        <label>Source:</label><input type="text" name="source"><br>
-        <input type="submit" value="Query">
-    </form>
-
-    <h2>Visualize Timeline</h2>
-    <a href="{{ url_for('visualize') }}">Basic Visualization</a><br>
-    <a href="{{ url_for('visualize_relational') }}">Relational Visualization</a><br>
-
-    <h2>Export Timeline</h2>
-    <form action="{{ url_for('export') }}" method="post">
-        <label for="export_format">Export Format:</label>
-        <select name="export_format" id="export_format">
-            <option value="csv">CSV</option>
-            <option value="xls">Excel</option>
-            <option value="pdf">PDF</option>
-        </select>
-        <input type="submit" value="Export">
-    </form>
-    {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
